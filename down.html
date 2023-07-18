@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download button</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          text-align: center;
+          
+        }
+  
+        .button {
+          margin-top: 50px;
+        }
+  
+        .text {
+          width: 300px;
+          padding: 5px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+  
+        .button button {
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+  
+        .button button:hover {
+          background-color: #45a049;
+        }
+      </style>
+</head>
+<body>
+   <div class="button">
+    <input type="text" class="text">
+    <br><br>
+    <button id="downloadBtn">Download File</button>
+   </div>
+
+   <script>
+   const downloadBtn = document.getElementById("downloadBtn");
+   
+   downloadBtn.addEventListener("click", async () => {
+    try {
+      const urinput = document.querySelector(".text");
+      const response = await fetch(urinput.value);
+      if (!response.ok) {
+        throw new Error('Failed to fetch image. Status: ' + response.status);
+      }
+      const file = await response.blob();
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(file);
+      link.download = new Date().getTime().toString();
+      link.click();
+    } catch (error) {
+      console.error(error);
+      alert("Failed to download the image. See console for more details.");
+    }
+  });
+  </script>
+</body>
+</html>
